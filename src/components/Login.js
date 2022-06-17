@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import Loader from './Loader';
 import axios from 'axios';
 import { history } from '../router/AppRouter';
+import conserva from './img/conserva.jpeg';
+import '../styles/login.css';
 
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
@@ -33,7 +35,7 @@ const Login = () => {
             email: usuario,
             password: contrasena
         }).then( res => {
-            console.log(res)
+            console.log('mensaje de login', res)
             sessionStorage.setItem("usuario",JSON.stringify({
                     info: res.data.user 
                 } 
@@ -54,34 +56,37 @@ const Login = () => {
 
     return (
         <div className='min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8'>
-            <div className='mx-auto h-12 w-auto'>
+            <div className='mx-auto h-12'>
+                <div className='img-login'>
+                    <img className='h-20 w-70 shadow-lg rounded-sm' src={conserva} alt='' />
+                </div>
                 <form
-                className='mt-8 space-y-6'
+                className='mt-8 space-y-6 mt-10'
                 onSubmit={onLogin}>
 
                     {/* <FontAwesomeIcon
                     className='text-gray-300  mb-5'
                     icon={faUserCircle} size='6x' /> */}
-                    <div className='rounded-md shadow-sm -space-y-px'>
+                    {/* <div className='rounded-md shadow-sm space-y-3 > * + *'> */}
                         
                         <input 
-                                className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Email address'
-                                type="text"
-                                value={usuario}
-                                onChange={(e)=> setUsuario(e.target.value)} 
-                                placeholder="Usuario / Correo electronico"
-                                required>
+                            className='shadow-md appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
+                            type="text"
+                            value={usuario}
+                            onChange={(e)=> setUsuario(e.target.value)} 
+                            placeholder="Usuario / Correo electronico"
+                            required>
                         </input>
                         
                         <input 
-                                className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
+                                className='shadow-md appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
                                 type="password"
                                 value={contrasena}
                                 onChange={(e)=> setContrasena(e.target.value)}
                                 placeholder="Contraseña"
                                 required>
                         </input>
-                    </div>
+                    {/* </div> */}
                     <div className='flex items-center justify-between'>
                         <div className='flex items-center'>
                             <input id="remember-me" name="remember-me" type="checkbox" className='h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded' />

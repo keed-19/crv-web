@@ -21,7 +21,7 @@ import EditEmployee from '../components/empleados/EditEmployee';
 import EditClients from '../components/clientes/EditClients';
 import AddClients from '../components/clientes/AddClients';
 import AddEmployee from '../components/empleados/AddEmployee';
-// import Organigrama from '../components/ORGANIGRAMA/Organigrama';
+import Organigrama from '../components/ORGANIGRAMA/Organigrama';
 
 export const history =  createBrowserHistory(); 
 
@@ -48,7 +48,7 @@ const AppRouter = () => (
             <PrivateRoute path="/addemployee" component={AddEmployee} exact={true} />
 
             {/* esta ruta esta en prueba ya que da errores */}
-            {/* <PrivateRoute path="/organigrama" component={Organigrama} exact={true} /> */}
+            <PrivateRoute path="/organigrama" component={Organigrama} exact={true} />
             {/* <PrivateRoute path="/applyLoan" component={ApplyLoan} exact={true} /> */}
             <PublicRoute path="/" component={Login} exact={true} />
             

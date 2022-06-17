@@ -4,6 +4,9 @@ import axios from 'axios';
 import { history } from '../../router/AppRouter'; 
 import Header from '../Header';
 import { Link } from 'react-router-dom';
+import '../../styles/login.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+  import { faTrashCan, faPenToSquare, faCircleCheck, faCircleXmark } from '@fortawesome/free-solid-svg-icons'
 // import Swal from 'sweetalert2/dist/sweetalert2.js'
 
 // import 'sweetalert2/src/sweetalert2.scss'
@@ -101,37 +104,39 @@ const ProductHome = () => {
             </div>
 
             <div className='min-h-full flex items-center justify-center text-center'>            
-                <table className='table-auto'>
+                <table className='table-auto border-separate border border-slate-500'>
                     <thead>
                         <tr>
-                            <th>Nombre</th>
-                            <th>Plazo minimo</th>
-                            <th>Plazo maximo</th>
-                            <th>Monto minimo</th>
-                            <th>Monto maximo</th>
-                            <th>Tipo de producto</th>
-                            <th>Tasa</th>
-                            <th>Días del año</th>
-                            <th>Default de la App</th>
-                            <th>Activo</th>
-                            <th></th>
+                            <th class="border border-slate-600">Nombre</th>
+                            <th class="border border-slate-600">Plazo minimo</th>
+                            <th class="border border-slate-600">Plazo maximo</th>
+                            <th class="border border-slate-600">Monto minimo</th>
+                            <th class="border border-slate-600">Monto maximo</th>
+                            <th class="border border-slate-600">Tipo de producto</th>
+                            <th class="border border-slate-600">Tasa</th>
+                            <th class="border border-slate-600">Días del año</th>
+                            <th class="border border-slate-600">Por defecto</th>
+                            <th class="border border-slate-600">Activo</th>
+                            <th class="border border-slate-600" colSpan={2}>Opciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         {products.map(p=>
-                            <tr key={p._id}>
-                                <td>{p.product_name}</td>
-                                <td>{p.min_term}</td>
-                                <td>{p.max_term}</td>
-                                <td>{p.min_amount}</td>
-                                <td>{p.max_amount}</td>
-                                <td>{p.product_type}</td>
-                                <td>{p.rate}</td>
-                                <td>{p.year_days}</td>
-                                <td>{p.default_mobile_product ? <button onClick={() => onDefaultMovileProduct(false, p._id)} className='bg-green-600 rounded-sm'>Si</button> : <button onClick={() => onDefaultMovileProduct(true, p._id)} className='bg-red-600 rounded-sm'>No</button>}</td>
-                                <td>{p.enabled ? <button onClick={() => onEnabledProduct(false, p._id)} className='bg-green-600 rounded-sm'>Activo</button> : <button onClick={() => onEnabledProduct(true, p._id)} className='bg-red-600 rounded-sm'>Inactivo</button>}</td>
-                                <td><Link to={`/productedit/${p._id}`}><p className='bg-lime-400 rounded-sm'>Editar</p></Link></td>
-                                <td><button onClick={() => onDelete(p._id)}>X</button></td>
+                            <tr key={p._id} className="border border-slate-700">
+                                <td className='border border-slate-700'>{p.product_name}</td>
+                                <td class="border border-slate-600">{p.min_term}</td>
+                                <td class="border border-slate-600">{p.min_amount}</td>
+                                <td class="border border-slate-600">{p.max_term}</td>
+                                <td class="border border-slate-600">{p.max_amount}</td>
+                                <td class="border border-slate-600">{p.product_type}</td>
+                                <td class="border border-slate-600">{p.rate}</td>
+                                <td class="border border-slate-600">{p.year_days}</td>
+                                <td class="border border-slate-600">{p.default_mobile_product ? <button onClick={() => onDefaultMovileProduct(false, p._id)} className='rounded-sm'> <FontAwesomeIcon className='text-green-400 w-5 h-5' icon={faCircleCheck} /></button> : <button onClick={() => onDefaultMovileProduct(true, p._id)} className='rounded-sm'><FontAwesomeIcon className='text-red-400 w-5 h-5' icon={faCircleXmark} /></button>}</td>
+                                <td>{p.enabled ? <button onClick={() => onEnabledProduct(false, p._id)} className='bg-lime-300 rounded-sm text-black p-1'>Activo</button> : <button onClick={() => onEnabledProduct(true, p._id)} className='bg-red-500 text-white rounded-sm p-1'>Inactivo</button>}</td>
+                                {/* <td><Link to={`/productedit/${p._id}`}><p className='bg-lime-400 rounded-sm'>Editar</p></Link></td> */}
+                                <td><Link to={`/productedit/${p._id}`}><p className='bg-lime-500 rounded-sm'> <FontAwesomeIcon className='text-white' icon={faPenToSquare} /></p></Link></td>
+                                <td><Link onClick={() => onDelete(p._id)}><p className='bg-red-500 hover:bg-white rounded-sm'> <FontAwesomeIcon className='text-white' icon={faTrashCan} /></p></Link></td>
+                                {/* <td><button onClick={() => onDelete(p._id)}>X</button></td> */}
                             </tr>
                         )}                        
                     </tbody>
