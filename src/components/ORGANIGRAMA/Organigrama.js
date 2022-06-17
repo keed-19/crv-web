@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-// import DeptosHome from './deptos/DeptosHome';
+import DeptosHome from './deptos/DeptosHome';
 
-// import PuestosHome from './puestos/PuestosHome';
+import PuestosHome from './puestos/PuestosHome';
 import Loader from '../Loader';
 // import { AxiosExpenseApi } from '../../../utils/axiosApi';
 import axios from 'axios';
@@ -125,9 +125,9 @@ const Organigrama = () => {
                 toggler[i].removeEventListener("click", handleClick );
               }
 
-            // const contenedor = document.querySelector("#myUL");
-            // const rootItem = contenedor.firstElementChild;
-            // contenedor.removeChild(rootItem);
+            const contenedor = document.querySelector("#myUL");
+            const rootItem = contenedor.firstElementChild;
+            contenedor.removeChild(rootItem);
         } 
 
     },[]);
@@ -142,8 +142,8 @@ const Organigrama = () => {
         { loading && <Loader />}
         { !loading &&
         <div>
-            {/* <PuestosHome />
-            <DeptosHome /> */}
+            <PuestosHome />
+            <DeptosHome />
             <div>
                 <Link to="/">Regresar</Link>
             </div>
