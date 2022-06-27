@@ -22,6 +22,7 @@ import EditClients from '../components/clientes/EditClients';
 import AddClients from '../components/clientes/AddClients';
 import AddEmployee from '../components/empleados/AddEmployee';
 import Organigrama from '../components/ORGANIGRAMA/Organigrama';
+import organigrama2 from '../components/ORGANIGRAMA/organigrama2';
 
 export const history =  createBrowserHistory(); 
 
@@ -48,7 +49,8 @@ const AppRouter = () => (
             <PrivateRoute path="/addemployee" component={AddEmployee} exact={true} />
 
             {/* esta ruta esta en prueba ya que da errores */}
-            <PrivateRoute path="/organigrama" component={Organigrama} exact={true} />
+            <PrivateRoute path="/organigrama" component={organigrama2} exact={true} />
+            {/* <PrivateRoute path="/organigrama2" component={organigrama2} exact={true} /> */}
             {/* <PrivateRoute path="/applyLoan" component={ApplyLoan} exact={true} /> */}
             <PublicRoute path="/" component={Login} exact={true} />
             

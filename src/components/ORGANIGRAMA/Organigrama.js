@@ -53,7 +53,7 @@ const Organigrama = () => {
                 span.classList.toggle("caret-down");
                 
                 contenedor.appendChild(li);
-                li.appendChild(span);
+                li.appendChild(span);//appendChild ayuda a crear nodos dinamicamente
                 li.appendChild(label)
                 li.appendChild(ul);
 

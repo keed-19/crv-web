@@ -3,9 +3,9 @@ import DeptosLista from './DeptosLista';
 import Loader from '../../Loader';
 import { Link } from 'react-router-dom';
 
-import ExpensesContext from '../../../../context/ExpensesContext';
-import DeptosReducer from "../../../../reducers/deptos";
-import { AxiosExpenseApi } from  '../../../../utils/axiosApi';
+// import ExpensesContext from '../../../../context/ExpensesContext';
+// import DeptosReducer from "../../../../reducers/deptos";
+// import { AxiosExpenseApi } from  '../../../../utils/axiosApi';
 import axios from 'axios';
 
 
@@ -16,7 +16,7 @@ const DeptosHome = ()=>{
 
     const [loading, setLoading ] = useState(false);
 
-    const [deptos, dispatchDeptos]  = useReducer(DeptosReducer, []);
+    // const [deptos, dispatchDeptos]  = useReducer(DeptosReducer, []);
 
     useEffect( ()=>{
 
@@ -28,10 +28,10 @@ const DeptosHome = ()=>{
             const axiosApi = AxiosExpenseApi();
             if (axiosApi ) {
                 axiosApi.get('/deptos').then( (res)=>{
-                    dispatchDeptos( {
-                        type: "POPULATE_DEPTOS",
-                        deptos: res.data
-                    });
+                    // dispatchDeptos( {
+                    //     type: "POPULATE_DEPTOS",
+                    //     deptos: res.data
+                    // });
     
                 }).catch( (e)=>{
                     alert(e);
@@ -53,11 +53,11 @@ const DeptosHome = ()=>{
         <div>
             <h1>Departamentos</h1>
             <Link to="/deptosadd">Agregar</Link>
-            <ExpensesContext.Provider value={ { deptos,
+            {/* <ExpensesContext.Provider value={ { deptos,
                                                 dispatchDeptos }}>
                 { loading && <Loader /> }
                 { !loading && <DeptosLista />}
-            </ExpensesContext.Provider>
+            </ExpensesContext.Provider> */}
         </div>
     );
 }

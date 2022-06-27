@@ -1,11 +1,11 @@
 import React,{useContext} from "react";
 import DeptosItem from "./DeptosItem";
 
-import ExpensesContext from "../../../../context/ExpensesContext";
+// import ExpensesContext from "../../../../context/ExpensesContext";
 
 const DeptosLista = () => {
 
-    const { deptos } = useContext(ExpensesContext);
+    // const { deptos } = useContext(ExpensesContext);
 
     return (
         <div>
@@ -16,11 +16,11 @@ const DeptosLista = () => {
 
             </div>
             {
-            deptos.map( depto => 
-                    <DeptosItem 
-                        key={depto._id}
-                        depto={depto}
-                    /> )
+            // deptos.map( depto => 
+            //         <DeptosItem 
+            //             key={depto._id}
+            //             depto={depto}
+            //         /> )
             }
         </div>
     );
