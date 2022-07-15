@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import '../../styles/login.css'
-
+import '../../styles/organigrama.css';
+import Header from '../Header';
+import { history } from '../../router/AppRouter';
 
 const api = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL_API
@@ -9,7 +10,13 @@ const api = axios.create({
 
 const Organigrama2 = () =>{
 
-    // const [hierarchies, setHierarchies] = useState([]);
+    const [hierarchyName, setHierarchyName] = useState('');
+    const [valueparent, setValueParent] = useState();
+    const [workstation, setWorkstation] = useState('');
+    const [keyValue, setKeyValue] = useState('');
+    const [puestos, setPuestos ] = useState([]);
+    const [puestoElegido, setPuestoElegido ] = useState([]);
+    const [statusEdit, setStatusEdit] = useState(false);
 
     class TreeNode {
         constructor(id,hierarchy_name,workstation, employee){
@@ -35,7 +42,7 @@ const Organigrama2 = () =>{
             // const label = document.createElement('label');
             const ul = document.createElement('ul');
 
-            console.log(nodo.hijos.length)
+            // console.log(nodo.hijos)
 
             // if( nodo.hijos.length ){
                 span.textContent = `${nodo.hierarchy_name} (${nodo.employee})`;
@@ -48,8 +55,8 @@ const Organigrama2 = () =>{
                 
 
                 
-                // ul.classList.toggle("active");
-                // span.classList.toggle("caret-down");
+                ul.classList.toggle("active");
+                span.classList.toggle("caret-down");
                 
                 contenedor.appendChild(li);
                 li.appendChild(span);//appendChild ayuda a crear nodos dinamicamente
@@ -68,10 +75,14 @@ const Organigrama2 = () =>{
 
         })
     }
-
     
     useEffect( ()=>{
         let mounted = true;
+
+        // console.log(valueparent)
+        if( valueparent === undefined ) {
+            setValueParent('Seleccionar')
+        }
 
         if( mounted ) {
             let hierarchies = []
@@ -89,7 +100,8 @@ const Organigrama2 = () =>{
                         name_employee: i.name_employee
                     } 
                 });
-                // console.log('Puestosss', puestos);
+                console.log(hierarchies);
+                setPuestos(hierarchies)
 
                 const setHijos = ( nodo ) => {
                     // console.log('nodoo', nodo)
@@ -113,7 +125,7 @@ const Organigrama2 = () =>{
 
             })
             .catch( e=>{
-                alert(e);
+                console.log(e);
             })
         
         }
@@ -134,18 +146,199 @@ const Organigrama2 = () =>{
             contenedor.removeChild(rootItem);
         } 
 
-    }, [])
+    }, []);
+
+    const OnSelectPadre = (event)=>{
+        // obtenemos el id del puesto pero para guardar la jerarquia tambien vamos a mandar el nombre por ende lo buscamos en el array pricipal
+        setPuestoElegido(puestos.find(({_id}) => _id === event.target.value));
+    }
+    // console.log(puestoElegido.hierarchy_name)
+
+    const removeAccents = (str) => {
+        return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    };
+
+    const onSave = ()=> {
+        // e.preventDefault()
+        const data = {
+            hierarchy_name: removeAccents(hierarchyName.toUpperCase()),
+            isroot: false,
+            parent: [{
+                id_Parent: puestoElegido._id,
+                name_Parent: puestoElegido.hierarchy_name.toUpperCase()
+            }],
+            workstation: removeAccents(workstation.toUpperCase())
+        }
+        JSON.stringify(data)
+
+        const token = `Bearer ${sessionStorage.getItem("token")}`;
+        api.defaults.headers.common["Authorization"] = token;
+        api.post('/hierarchies',data)
+        .then(res=>{
+            console.log(res);
+            if(res.status === 200) {
+                history.replace('/organigrama')
+            }
+        })
+        .catch(e=>{
+            console.log(e)
+            return
+        })
+        // history.replace('/employees');
+    }
+
+    function cutString(palabra) { 
+        var res = palabra.split("(");
+        palabra= res[0];
+        return res[0];
+    }
+
+    const onVer = (e) => {
+        e.preventDefault();
+        var data = cutString(e.target.innerHTML)
+        const dataNoSpace = data.replace(/\s*$/,"")+""
+
+        let datos = puestos.find(({hierarchy_name}) => hierarchy_name === dataNoSpace)
+
+        setHierarchyName(datos.hierarchy_name);
+        setWorkstation(datos.workstation);
+        setValueParent(datos.parent[0].name_Parent);
+        setKeyValue(datos._id)
+
+        setStatusEdit(true);
+    }
+
+    const onClean = (e) => {
+        e.preventDefault();
+        setHierarchyName('');
+        setWorkstation('');
+        setValueParent('Seleccionar')
+
+        setStatusEdit(false);
+    }
+
+    const onDelete = async(e) => {
+        e.preventDefault();
+        // console.log(keyValue)
+        const token = `Bearer ${sessionStorage.getItem("token")}`;
+        api.defaults.headers.common["Authorization"] = token;
+        const apiResponse = await api.delete('/hierarchies/' + keyValue);
+        alert(apiResponse.data)
+        window.location.reload()
+    }
+
+    const onEdit = async(e) => {
+        e.preventDefault();
+        let data;
+        if (puestoElegido.length === 0) {
+            data = {
+                hierarchy_name: removeAccents(hierarchyName.toUpperCase()),
+                isroot: false,
+                workstation: removeAccents(workstation.toUpperCase())
+            }
+        } else {
+            data = {
+                hierarchy_name: removeAccents(hierarchyName.toUpperCase()),
+                isroot: false,
+                parent: [{
+                    id_Parent: puestoElegido._id,
+                    name_Parent: puestoElegido.hierarchy_name.toUpperCase()
+                }],
+                workstation: removeAccents(workstation.toUpperCase())
+            }
+        }
+        JSON.stringify(data)
+
+        // const token = `Bearer ${sessionStorage.getItem("token")}`;
+        // api.defaults.headers.common["Authorization"] = token;
+        api.patch('/hierarchies/'+ keyValue, data, `Bearer ${sessionStorage.getItem("token")}`)
+        .then(res=>{
+            console.log(res);
+            if(res.status === 200) {
+                // history.replace('/organigrama')
+                window.location.reload()
+            }
+        })
+        .catch(e=>{
+            console.log(e)
+            return
+        })
+    }
 
     return (
         <section>
-            <h1>Organigrama de puestos</h1>
-    
-            <ul id="myUL"></ul>
+            <Header />
+            <div className='md:grid md:grid-cols-4 md:gap-6'>
 
+                <div class="md:col-span-2">
+                    <h1 className='text-2xl font-bold text-gray-900'>Organigrama de puestos</h1>
+                    
+                    <ul className='mt-1 text-sm' onClick={onVer} id="myUL"></ul>
+                </div>
+                <div class="mt-5 md:mt-0 md:col-span-2">
+                    <div class="px-4 sm:px-0">
+                        <h3 class="text-lg font-medium leading-6 text-gray-900">Puestos</h3>
+                        {/* <form onSubmit={onSave}> */}
+                        <form onSubmit={onSave}>
+                            <div className="shadow overflow-hidden sm:rounded-md">
+                                <div className="px-4 py-5 bg-white sm:p-6">
+                                    <div className="grid grid-cols-6 gap-6">
+                                        <div className="col-span-6 sm:col-span-3">
+                                            <label for="first-name" className="block text-sm font-medium text-gray-700">Nombre de la jerarquía</label>
+                                            <input type="text" value={hierarchyName} onChange={(e)=> setHierarchyName(e.target.value)} className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                                        </div>
+
+                                        <div className="col-span-6 sm:col-span-3">
+                                            <label for="first-name" className="block text-sm font-medium text-gray-700">Puesto de trabajo</label>
+                                            <input type="text" value={workstation} onChange={(e)=> setWorkstation(e.target.value)} className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
+                                        </div>
+
+                                        <div className="col-span-6 sm:col-span-3">
+                                            <label for="first-name" className="block text-sm font-medium text-gray-700">Superior de la jerarquía</label>
+                                            {/* <input type="text" value={puestos} onChange={(e)=> setPuestos(e.target.value)} className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" /> */}
+                                            <div className='tarea-formulario'>
+                                                <div>
+                                                    <label>                                                        
+                                                        <select onChange={OnSelectPadre}>
+                                                            <option>{valueparent}</option>
+                                                            {puestos?.map(item => <option value={item._id}>{item.hierarchy_name}</option>)}
+                                                        </select>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-6">
+                                    {/* validacion segun el caso en el q se encuentra el formulario */}
+                                    {
+                                        statusEdit === true ? 
+                                            <>
+                                                <div className="col-span-6 sm:col-span-2 px-4 py-3 bg-gray-50 text-right sm:px-6">
+                                                    <button onClick={onClean} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">Limpiar</button>
+                                                </div>
+                                                <div className="col-span-6 sm:col-span-2 px-4 py-3 bg-gray-50 text-right sm:px-6">
+                                                    <button onClick={onDelete} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">Eliminar</button>
+                                                </div>
+                                                <div className="col-span-6 sm:col-span-2 px-4 py-3 bg-gray-50 text-right sm:px-6">
+                                                    <button onClick={onEdit} className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">Editar</button>
+                                                </div>
+                                            </> 
+                                        :
+                                            <>
+                                                <div className="col-span-6 sm:col-span-6 px-4 py-3 bg-gray-50 text-right sm:px-6">
+                                                    <button type="submit" className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Guardar</button>
+                                                </div>
+                                            </>
+                                    }
+                                </div>
+                            </div>
+                        </form>                        
+                    </div>
+                </div>                
+            </div>
         </section>
     );
-    
-
 }
-
 export {Organigrama2 as default};

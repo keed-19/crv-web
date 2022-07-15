@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import { history} from '../router/AppRouter';
-import conserva from './img/conserva.jpeg';
+import conserva from './img/conserva.png';
 
 const Header = () => {
 
@@ -101,6 +101,7 @@ const Header = () => {
                                             <button className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium link" data-dropdown-button>Configuración</button>
                                             <div className="dropdown-menu hidden">
                                                 <Link className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" to="/generalconfig">General</Link>
+                                                <Link className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" to="/panelEntrada">Panel de entrada</Link>
                                                 <Link className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" to="/organigrama">Organigrama</Link>
                                                 <Link className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" to="/product">Productos</Link>
                                                 <Link className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" to="/usuarios">Usuarios</Link>

@@ -53,9 +53,9 @@ const FormEmployee = ({employee, onSend}) => {
             const loadData = async()=>{
                 const token = `Bearer ${sessionStorage.getItem("token")}`;
                 api.defaults.headers.common["Authorization"] = token;
-                const apiResponse = await api.get('/hierarchies');
+                const apiResponse = await api.get('/availableHierarchies');
                 setPuestos(apiResponse.data);
-                console.log(apiResponse.data)
+                console.log('Respuesta',apiResponse)
             }
             loadData()
             setWorkStation('Seleccionar')
@@ -161,7 +161,7 @@ const FormEmployee = ({employee, onSend}) => {
                                         </div>
 
                                         <div className="col-span-6 sm:col-span-2">
-                                            <label for="first-name" className="block text-sm font-medium text-gray-700">Apellido paterno</label>
+                                            <label  for="first-name" className="block text-sm font-medium text-gray-700">Apellido paterno</label>
                                             <input type="text" value={aPaterno} onChange={(e)=> setApaterno(e.target.value)} className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" />
                                         </div>
 

@@ -12,14 +12,17 @@ const AddClients = ({match}) => {
     const [clients, setClients] = useState({});
 
     const onSend = (data) => {
+        JSON.stringify(data)
         try {
             const token = `Bearer ${sessionStorage.getItem("token")}`;
             api.defaults.headers.common["Authorization"] = token;
-            api.post('/clients',{data})
+            api.post('/clients',data)
             .then(res=>{
-                console.log(res);
+                // console.log(res);
                 if(res.status === 200) {
                     history.replace('/clientes')
+                } else {
+                    console.log(res)
                 }
             })
             .catch(e=>{

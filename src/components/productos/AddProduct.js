@@ -13,13 +13,14 @@ const AddProduct = ({match}) => {
 
     const onSend = (data) => {
         try {
+            JSON.stringify(data)
             // imagen 
             // const f = new FormData();
             // f.append("files", data.image);
             // f.append("files", data.logo);
             const token = `Bearer ${sessionStorage.getItem("token")}`;
             api.defaults.headers.common["Authorization"] = token;
-            api.post('/products',{data})
+            api.post('/products',data)
             .then(res=>{
                 console.log(res);
                 console.log(data)

@@ -7,14 +7,6 @@ import { Link } from 'react-router-dom';
 import '../../styles/login.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
   import { faTrashCan, faPenToSquare, faCircleCheck, faCircleXmark } from '@fortawesome/free-solid-svg-icons'
-// import Swal from 'sweetalert2/dist/sweetalert2.js'
-
-// import 'sweetalert2/src/sweetalert2.scss'
-// import TareaFormulario from '../listas/TareaFormulario';
-// import/first {sweet} from '//cdn.jsdelivr.net/npm/sweetalert2@11'
-
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-// import { faUserCircle } from '@fortawesome/free-solid-svg-icons'
 
 
 const api = axios.create({
@@ -26,8 +18,6 @@ const ProductHome = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     // useEffect(()=>{}, [])
     const [products, setProducts ] = useState([]);
-    const [defaultMovile, setDefaultMovile ] = useState();
-    const [productStatus, setProductStatus ] = useState();
 
     useEffect(()=>{
         const loadData = async()=>{
@@ -37,31 +27,12 @@ const ProductHome = () => {
             setProducts(apiResponse.data);
             // setDefaultMovile(apiResponse.data.default_mobile_product)
             // setProductStatus(apiResponse.data.enabled)
-            console.log(apiResponse.data)
+            // console.log(apiResponse.data)
         }
         loadData()
-        console.log('consulta')
     },[])
 
-    const onDelete = async(id) => {
-        // Swal.fire({
-        //     title: 'Are you sure?',
-        //     text: "You won't be able to revert this!",
-        //     icon: 'warning',
-        //     showCancelButton: true,
-        //     confirmButtonColor: '#3085d6',
-        //     cancelButtonColor: '#d33',
-        //     confirmButtonText: 'Yes, delete it!'
-        //   }).then((result) => {
-        //     if (result.isConfirmed) {
-        //       Swal.fire(
-        //         'Deleted!',
-        //         'Your file has been deleted.',
-        //         'success'
-        //       )
-        //     }
-        //   })
-        
+    const onDelete = async(id) => {        
         const token = `Bearer ${sessionStorage.getItem("token")}`;
         api.defaults.headers.common["Authorization"] = token;
         const apiResponse = await api.delete('/products/' + id);
@@ -70,29 +41,46 @@ const ProductHome = () => {
     }
 
     const onDefaultMovileProduct = (status, id) => {
-        // console.log(status, id)
         const data ={
             default_mobile_product: status,
         }
-        onEdit(data, id)        
+        
+        JSON.stringify(data)
+        console.log(data)
+        api.patch('/products/'+id,data, `Bearer ${sessionStorage.getItem("token")}`)
+            .then(res=>{
+                // console.log(res.status);
+                if(res.status === 200){
+                    window.location.reload(true);
+                } else {
+                    alert('Ha ocurrido algun error, favor de intentar nuevamente')
+                }
+            })
+        // onEdit(data, id)        
     }
 
     const onEnabledProduct = (status, id) => {
         const data ={
             enabled: status
         }
-        onEdit(data, id)       
-    }
 
-    const onEdit = (data, id) => {
-        api.patch('/products/'+id,{data}, `Bearer ${sessionStorage.getItem("token")}`)
+        JSON.stringify(data)
+        api.patch('/products/'+id,data, `Bearer ${sessionStorage.getItem("token")}`)
             .then(res=>{
-                console.log(res.data);
+                // console.log(res.data);
+                if(res.status === 200){
+                    window.location.reload(true);
+                } else {
+                    alert('Ha ocurrido algun error, favor de intentar nuevamente')
+                }
             })
-            window.location.reload(true);
+            // window.location.reload(true);
+        // onEdit(data, id)       
     }
 
-    console.log(defaultMovile)
+    // const onEdit = (data, id) => {
+        
+    // }
 
     return (
         <section>

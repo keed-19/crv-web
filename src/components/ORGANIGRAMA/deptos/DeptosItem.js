@@ -1,18 +1,18 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-// import ExpensesContext from "../../../../context/ExpensesContext";
+import ExpensesContext from "../../../../context/ExpensesContext";
 
 const DeptosItem = ({depto}) => {
 
-    // const { dispatchDeptos } = useContext(ExpensesContext);
+    const { dispatchDeptos } = useContext(ExpensesContext);
 
     const onEliminar = (e) => {
         e.preventDefault();
 
-        // dispatchDeptos({
-        //     type: 'REMOVE_DEPTO',
-        //     _id: depto._id
-        // })
+        dispatchDeptos({
+            type: 'REMOVE_DEPTO',
+            _id: depto._id
+        })
     }
     return (
         <Link to={`/deptosedit/${depto._id}`}>

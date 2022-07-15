@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Loader from './Loader';
 import axios from 'axios';
 import { history } from '../router/AppRouter';
-import conserva from './img/conserva.jpeg';
+import conserva from './img/conserva.png';
 import '../styles/login.css';
 
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -57,9 +57,7 @@ const Login = () => {
     return (
         <div className='min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8'>
             <div className='mx-auto h-12'>
-                <div className='img-login'>
-                    <img className='h-20 w-70 shadow-lg rounded-sm' src={conserva} alt='' />
-                </div>
+                
                 <form
                 className='mt-8 space-y-6 mt-10'
                 onSubmit={onLogin}>
@@ -68,6 +66,9 @@ const Login = () => {
                     className='text-gray-300  mb-5'
                     icon={faUserCircle} size='6x' /> */}
                     {/* <div className='rounded-md shadow-sm space-y-3 > * + *'> */}
+                    <div className='img-login'>
+                        <img className='h-32 w-64' src={conserva} alt='' />
+                    </div>
                         
                         <input 
                             className='shadow-md appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
@@ -90,11 +91,11 @@ const Login = () => {
                     <div className='flex items-center justify-between'>
                         <div className='flex items-center'>
                             <input id="remember-me" name="remember-me" type="checkbox" className='h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded' />
-                            <label for="remember-me" className='ml-2 block text-sm text-gray-900'> Remember me </label>
+                            <label for="remember-me" className='ml-2 block text-sm text-gray-900'> Recordarme </label>
                         </div>
 
                         <div className='text-sm'>
-                            <Link className='font-medium text-indigo-600 hover:text-indigo-500' to='/recpass'>Forgot your password?</Link>
+                            <Link className='font-medium text-indigo-600 hover:text-indigo-500' to='/recpass'>¿Olvidaste tu contraseña?</Link>
                         </div>
                     </div>
 

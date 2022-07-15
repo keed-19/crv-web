@@ -13,9 +13,10 @@ const AddEmployee = ({match}) => {
 
     const onSend = (data) => {
         try {
+            JSON.stringify(data)
             const token = `Bearer ${sessionStorage.getItem("token")}`;
             api.defaults.headers.common["Authorization"] = token;
-            api.post('/employees',{data})
+            api.post('/employees',data)
             .then(res=>{
                 console.log(res);
                 if(res.status === 200) {

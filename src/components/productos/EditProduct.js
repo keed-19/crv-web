@@ -26,9 +26,10 @@ const EditProduct = ({match}) => {
     const onSend = (data) => {
         // aqui vamos a llamar el api con trycatch
         try {
+            JSON.stringify(data)
             // const token = `Bearer ${sessionStorage.getItem("token")}`;
             // api.defaults.headers.common["Authorization"] = token;
-            api.patch('/products/'+product._id,{data}, `Bearer ${sessionStorage.getItem("token")}`)
+            api.patch('/products/'+product._id,data, `Bearer ${sessionStorage.getItem("token")}`)
             .then(res=>{
                 console.log(res.data);
             })

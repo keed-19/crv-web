@@ -23,8 +23,9 @@ const EditClients = ({match}) => {
     },[])
 
     const onSend = (data) => {
+        JSON.stringify(data)
         try {
-            api.patch('/clients/'+clients._id,{data}, `Bearer ${sessionStorage.getItem("token")}`)
+            api.patch('/clients/'+clients._id,data, `Bearer ${sessionStorage.getItem("token")}`)
             .then(res=>{
                 console.log(res.data);
             })

@@ -1,11 +1,11 @@
 import React,{useContext} from "react";
 import PuestosItem from './PuestosItem';
 
-// import ExpensesContext from "../../../../context/ExpensesContext";
+import ExpensesContext from "../../../../context/ExpensesContext";
 
 const PuestosLista = () => {
 
-    // const { puestos } = useContext(ExpensesContext);
+    const { puestos } = useContext(ExpensesContext);
 
     return (
         <div>
@@ -17,13 +17,13 @@ const PuestosLista = () => {
                 <p className="headerlabel">Usuario</p>
 
             </div>
-            {/* {
+            {
             puestos.map( puesto => 
                     <PuestosItem 
                         key={puesto._id}
                         puesto={puesto}
                     /> )
-            } */}
+            }
         </div>
     );
 }

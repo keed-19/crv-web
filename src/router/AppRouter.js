@@ -21,8 +21,11 @@ import EditEmployee from '../components/empleados/EditEmployee';
 import EditClients from '../components/clientes/EditClients';
 import AddClients from '../components/clientes/AddClients';
 import AddEmployee from '../components/empleados/AddEmployee';
-import Organigrama from '../components/ORGANIGRAMA/Organigrama';
+// import Organigrama from '../components/ORGANIGRAMA/Organigrama';
 import organigrama2 from '../components/ORGANIGRAMA/organigrama2';
+import panelEntrada from '../components/panelEntrada/PanelEntrada';
+import cardClient from '../components/panelEntrada/cardClient';
+import pruebasE from '../components/panelEntrada/pruebasE';
 
 export const history =  createBrowserHistory(); 
 
@@ -47,10 +50,13 @@ const AppRouter = () => (
             <PrivateRoute path="/clientes" component={ClientesHome} exact={true} />
             <PrivateRoute path="/addclientes" component={AddClients} exact={true} />
             <PrivateRoute path="/addemployee" component={AddEmployee} exact={true} />
+            <PrivateRoute path="/organigrama" component={organigrama2} exact={true} />
+            <PrivateRoute path="/panelEntrada" component={panelEntrada} exact={true} />
+            <PrivateRoute path="/cardClient/:client_id" component={cardClient} exact={true} />
+            <PrivateRoute path="/prueba/:client_id" component={pruebasE} exact={true} />
 
             {/* esta ruta esta en prueba ya que da errores */}
-            <PrivateRoute path="/organigrama" component={organigrama2} exact={true} />
-            {/* <PrivateRoute path="/organigrama2" component={organigrama2} exact={true} /> */}
+            {/* <PrivateRoute path="/organigrama" component={Organigrama} exact={true} /> */}
             {/* <PrivateRoute path="/applyLoan" component={ApplyLoan} exact={true} /> */}
             <PublicRoute path="/" component={Login} exact={true} />
             

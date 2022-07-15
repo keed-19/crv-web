@@ -3,8 +3,8 @@ import PuestosLista from './PuestosLista';
 import Loader from '../../Loader';
 import { Link } from 'react-router-dom';
 
-// import ExpensesContext from '../../../../context/ExpensesContext';
-// import PuestosReducer from '../../../../reducers/puestos';
+import ExpensesContext from '../../../../context/ExpensesContext';
+import PuestosReducer from '../../../../reducers/puestos';
 import axios from 'axios';
 
 const PuestosHome = ()=>{
@@ -15,7 +15,7 @@ const PuestosHome = ()=>{
 
     const [loading, setLoading ] = useState(false);
     
-    // const [puestos, dispatchPuestos]  = useReducer(PuestosReducer, []);
+    const [puestos, dispatchPuestos]  = useReducer(PuestosReducer, []);
 
     useEffect( ()=>{
 
@@ -25,10 +25,10 @@ const PuestosHome = ()=>{
                 setLoading(true);
                 const axiosApi = AxiosExpenseApi();
                 let res = await axiosApi.get('/puestos');
-                // dispatchPuestos( {
-                //     type: "POPULATE_PUESTOS",
-                //     puestos: res.data
-                // });
+                dispatchPuestos( {
+                    type: "POPULATE_PUESTOS",
+                    puestos: res.data
+                });
                 setLoading(false);
             }
             catch(e) {
@@ -47,11 +47,11 @@ const PuestosHome = ()=>{
         <div>
             <h1>Puestos</h1>
             <Link to="/puestosadd">Agregar</Link>
-            {/* <ExpensesContext.Provider value={ { puestos,
+            <ExpensesContext.Provider value={ { puestos,
                                                 dispatchPuestos }}>
                 { loading && <Loader />}
                 {!loading && <PuestosLista />}
-            </ExpensesContext.Provider> */}
+            </ExpensesContext.Provider>
         </div>
     );
 }
